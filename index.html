@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f6efe1">
+<title>Армянский алфавит · карточки</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Noto+Serif+Armenian:wght@400;500;600;700&family=Spectral:wght@400;500;600&display=swap');
+ 
+:root{
+  --paper:#f6efe1;--paper-2:#efe5d2;--ink:#2b2018;--ink-soft:#6b5d4d;
+  --crimson:#9e2b25;--crimson-deep:#7a1f1c;--ultramarine:#1f3f7a;
+  --apricot:#e08a2c;--apricot-soft:#f0b760;--gold:#b8893a;
+  --line:#d8c9ac;--correct:#2f6b3a;--correct-bg:#e3efdf;
+  --shadow:0 18px 40px -20px rgba(43,32,24,.45);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--paper);color:var(--ink)}
+body{
+  font-family:'Spectral',Georgia,serif;min-height:100vh;
+  background:
+    radial-gradient(1100px 600px at 85% -5%, rgba(224,138,44,.16), transparent 60%),
+    radial-gradient(900px 500px at -10% 110%, rgba(31,63,122,.12), transparent 60%),
+    var(--paper);
+  position:relative;-webkit-tap-highlight-color:transparent;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+}
+.wrap{position:relative;z-index:1;max-width:560px;margin:0 auto;padding:26px 18px 70px}
+ 
+/* masthead */
+.mast{text-align:center;margin-bottom:14px}
+.crest{
+  width:50px;height:50px;margin:0 auto 12px;border-radius:50%;display:grid;place-items:center;
+  background:linear-gradient(160deg,var(--apricot-soft),var(--apricot));
+  box-shadow:0 8px 20px -8px rgba(224,138,44,.7), inset 0 0 0 2px rgba(255,255,255,.35);
+}
+.crest span{font-family:'Noto Serif Armenian',serif;font-weight:700;font-size:24px;color:#fff;line-height:1}
+.kicker{font-family:'Spectral';letter-spacing:.3em;text-transform:uppercase;font-size:10.5px;color:var(--apricot);font-weight:600;margin-bottom:5px}
+h1{font-family:'Fraunces';font-weight:600;line-height:1.05;font-size:clamp(26px,7vw,38px);letter-spacing:-.01em}
+h1 em{font-style:italic;color:var(--crimson)}
+ 
+/* topbar */
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:18px 0 14px}
+.counter{font-family:'Fraunces';font-weight:600;font-size:15px}
+.counter .muted{color:var(--ink-soft);font-weight:400}
+.learned-pill{font-family:'Fraunces';font-weight:600;background:var(--correct-bg);color:var(--correct);padding:5px 13px;border-radius:20px;font-size:13px}
+.learned-pill.zero{background:var(--paper-2);color:var(--ink-soft)}
+.progress{height:7px;background:var(--paper-2);border-radius:10px;overflow:hidden;margin-bottom:20px;border:1px solid var(--line)}
+.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--apricot),var(--crimson));transition:width .35s ease;border-radius:10px}
+ 
+/* case selector */
+.seg{display:flex;gap:4px;background:var(--paper-2);border:1px solid var(--line);border-radius:15px;padding:4px;margin-bottom:18px}
+.seg button{flex:1;border:none;background:transparent;border-radius:11px;padding:8px 6px;cursor:pointer;font-family:inherit;color:var(--ink-soft);transition:.15s;display:flex;flex-direction:column;align-items:center;gap:3px}
+.seg button .g{font-family:'Noto Serif Armenian',serif;font-size:19px;font-weight:600;line-height:1}
+.seg button .cap{font-size:11px;letter-spacing:.02em}
+.seg button.active{background:#fff;color:var(--ink);box-shadow:0 2px 8px -3px rgba(0,0,0,.25)}
+.seg button.active .g{color:var(--crimson)}
+ 
+/* flip card */
+.scene{perspective:1400px;margin-bottom:18px}
+.flip{
+  position:relative;width:100%;min-height:340px;transform-style:preserve-3d;
+  transition:transform .55s cubic-bezier(.4,.2,.2,1);cursor:pointer;
+}
+.flip.flipped{transform:rotateY(180deg)}
+.face{
+  position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:26px 22px;overflow:hidden;
+}
+.face::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;
+  background:linear-gradient(90deg,var(--crimson),var(--apricot),var(--ultramarine))}
+.front{background:linear-gradient(180deg,#fbf6ea,#f4ebd9)}
+.back{background:linear-gradient(180deg,#fbf6ea,#f1e7d3);transform:rotateY(180deg)}
+ 
+.idx-tag{position:absolute;top:14px;left:16px;font-family:'Fraunces';font-weight:600;font-size:13px;color:var(--ink-soft)}
+.known-badge{position:absolute;top:12px;right:14px;font-size:20px;opacity:0;transition:.2s;color:var(--correct)}
+.known-badge.show{opacity:1}
+ 
+.letter-big{font-family:'Noto Serif Armenian',serif;font-weight:600;line-height:1;color:var(--ink);
+  font-size:clamp(96px,32vw,150px);display:flex;align-items:baseline;gap:.12em}
+.letter-big .lower{font-size:.66em;color:var(--crimson)}
+.front .hint{margin-top:22px;font-size:13px;color:var(--ink-soft);font-style:italic}
+ 
+/* back content */
+.back .tr-big{font-family:'Fraunces';font-weight:700;font-size:clamp(46px,15vw,68px);color:var(--crimson);line-height:1;margin-bottom:6px}
+.back .name{font-family:'Noto Serif Armenian',serif;font-size:19px;color:var(--ink);margin-bottom:2px}
+.back .name b{color:var(--ultramarine)}
+.back .sound{font-size:13.5px;color:var(--ink-soft);margin-bottom:18px}
+.back .mnem-h{font-family:'Spectral';letter-spacing:.16em;text-transform:uppercase;font-size:10.5px;color:var(--apricot);font-weight:600;margin-bottom:8px}
+.back .mnem{font-size:16px;line-height:1.5;max-width:30em;text-align:center}
+.back .mnem .hy{font-family:'Noto Serif Armenian',serif;font-weight:600}
+ 
+/* action buttons on back */
+.card-actions{display:flex;gap:10px;width:100%;margin-top:20px}
+.mini{flex:1;font-family:'Spectral';font-weight:600;font-size:14px;padding:11px;border-radius:11px;border:1px solid var(--line);background:rgba(255,255,255,.5);cursor:pointer;transition:.15s;color:inherit}
+.mini.know{background:var(--correct-bg);border-color:var(--correct);color:var(--correct)}
+.mini:hover{transform:translateY(-2px)}
+ 
+/* nav */
+.nav{display:flex;align-items:center;gap:12px}
+.nav-btn{
+  width:58px;height:58px;flex:none;border-radius:16px;border:1px solid var(--line);
+  background:rgba(255,255,255,.5);font-size:24px;cursor:pointer;transition:.15s;color:var(--ink);
+  display:grid;place-items:center
+}
+.nav-btn:hover{border-color:var(--apricot);background:#fff;transform:translateY(-2px)}
+.nav-btn:active{transform:translateY(0)}
+.flip-btn{
+  flex:1;height:58px;border-radius:16px;border:none;background:var(--crimson);color:#fff;
+  font-family:'Spectral';font-weight:600;font-size:16px;cursor:pointer;transition:.15s;
+  box-shadow:0 10px 22px -10px rgba(158,43,37,.8)
+}
+.flip-btn:hover{background:var(--crimson-deep);transform:translateY(-2px)}
+ 
+/* settings row */
+.settings{display:flex;gap:10px;justify-content:center;margin-top:18px;flex-wrap:wrap}
+.chip{font-family:'Spectral';font-weight:600;font-size:13px;padding:9px 16px;border-radius:20px;border:1px solid var(--line);background:rgba(255,255,255,.4);cursor:pointer;transition:.15s;color:var(--ink-soft)}
+.chip:hover{border-color:var(--apricot);color:var(--ink)}
+.chip.active{background:var(--apricot);border-color:var(--apricot);color:#fff}
+ 
+.legend{margin-top:24px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.35);padding:15px 17px;font-size:13px;color:var(--ink-soft);line-height:1.55}
+.legend b{color:var(--ink)}
+ 
+.done{text-align:center;padding:40px 20px}
+.done .big{font-family:'Fraunces';font-weight:600;font-size:30px;color:var(--correct);margin-bottom:8px}
+.done p{color:var(--ink-soft);margin-bottom:20px}
+ 
+.footer{text-align:center;color:var(--ink-soft);font-size:12px;margin-top:26px;line-height:1.6}
+ 
+.fade{animation:fade .3s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+ 
+@media(max-width:520px){
+  .wrap{padding:20px 14px 56px}
+  .flip{min-height:320px}
+  .back .mnem{font-size:15.5px}
+  .nav-btn{width:54px;height:54px;font-size:22px}
+  .flip-btn{height:54px;font-size:15px}
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+ 
+<script>
+const A = [
+ {u:"Ա",l:"ա",name:"айб",tr:"а",sound:"гласный «а»",mnem:"«Айб» — первая буква, как «аз» в азбуке. Слово «алфавит» по-армянски — <span class='hy'>այբուբեն</span> (айб+бен), ровно как русское «аз+буки»."},
+ {u:"Բ",l:"բ",name:"бен",tr:"б",sound:"звонкий «б»",mnem:"«Бен» начинается на Б. Строчная <span class='hy'>բ</span> — пузатая, как зеркальная латинская «p». Звонкая пара к глухой <span class='hy'>Պ</span> (п)."},
+ {u:"Գ",l:"գ",name:"гим",tr:"г",sound:"звонкий «г»",mnem:"«Гим» → Г. Запомни тройку: <span class='hy'>Գ</span> г — <span class='hy'>Կ</span> к — <span class='hy'>Ք</span> к(придых): звонкая, глухая, с придыханием."},
+ {u:"Դ",l:"դ",name:"да",tr:"д",sound:"звонкий «д»",mnem:"«Да» → Д — и звучит как русское «да». Звонкая пара к глухой <span class='hy'>Տ</span> (т)."},
+ {u:"Ե",l:"ե",name:"еч",tr:"е / йе",sound:"«е», в начале слова «йе»",mnem:"Даёт «е», а в начале слова — «йе»: <span class='hy'>Երևան</span> = «Йереван». Строчная <span class='hy'>ե</span> похожа на нашу «е»."},
+ {u:"Զ",l:"զ",name:"за",tr:"з",sound:"звонкий «з»",mnem:"«За» → З. Просто запомнить: за-з."},
+ {u:"Է",l:"է",name:"э",tr:"э",sound:"гласный «э»",mnem:"Чистое «э». Горизонтальная чёрточка — будто язычок тянет «э-э-э»."},
+ {u:"Ը",l:"ը",name:"ыт",tr:"ə (ы)",sound:"краткий нейтральный звук",mnem:"Очень короткий глотаемый звук-«шва», полу-«ы». Часто почти не слышен — как беглое «ъ/ы» между согласными."},
+ {u:"Թ",l:"թ",name:"то",tr:"т(ʰ)",sound:"«т» с придыханием",mnem:"«Т» с выдохом, как английское t в «top». Тройка: <span class='hy'>Դ</span> д — <span class='hy'>Տ</span> т — <span class='hy'>Թ</span> т(придых)."},
+ {u:"Ժ",l:"ժ",name:"же",tr:"ж",sound:"звонкий «ж»",mnem:"«Же» → Ж. Жук жужжит."},
+ {u:"Ի",l:"ի",name:"ини",tr:"и",sound:"гласный «и»",mnem:"«Ини» → И. Тонкая палочка с хвостиком — как латинская «i»."},
+ {u:"Լ",l:"լ",name:"люн",tr:"л",sound:"«л»",mnem:"«Люн» → Л. Простая вертикальная палочка с загибом внизу — как латинская «l»."},
+ {u:"Խ",l:"խ",name:"хе",tr:"х",sound:"твёрдый «х»",mnem:"«Хе» → русское твёрдое Х (как в «хлеб»). Не путать с лёгким придыханием <span class='hy'>Հ</span> (h)."},
+ {u:"Ծ",l:"ծ",name:"ца",tr:"ц",sound:"резкий «ц» без придыхания",mnem:"«Ца» → резкое твёрдое Ц. Тройка свистящих: <span class='hy'>Ձ</span> дз — <span class='hy'>Ծ</span> ц — <span class='hy'>Ց</span> ц(придых)."},
+ {u:"Կ",l:"կ",name:"кен",tr:"к",sound:"«к» без придыхания",mnem:"Твёрдое чёткое «к» без выдоха. Средняя в тройке <span class='hy'>Գ</span> г — <span class='hy'>Կ</span> к — <span class='hy'>Ք</span> к(придых)."},
+ {u:"Հ",l:"հ",name:"хо",tr:"h",sound:"лёгкое придыхание h",mnem:"Похожа на латинскую «h» — и звук тот же: лёгкий выдох, как в английском «hello». Это НЕ русское «х» (то — <span class='hy'>Խ</span>)."},
+ {u:"Ձ",l:"ձ",name:"дза",tr:"дз",sound:"слитное звонкое «дз»",mnem:"«Дза» → слитное «дз». Звонкая в тройке <span class='hy'>Ձ</span> дз — <span class='hy'>Ծ</span> ц — <span class='hy'>Ց</span> ц(придых)."},
+ {u:"Ղ",l:"ղ",name:"гхат",tr:"гх",sound:"картавый «гх»",mnem:"Картавое «гх» — как французское «r» в «Paris» или украинское «г». Горлом, мягко рокочет."},
+ {u:"Ճ",l:"ճ",name:"че",tr:"ч",sound:"резкий «ч» без придыхания",mnem:"«Че» → резкое твёрдое Ч без выдоха. Пара к придыхательному <span class='hy'>Չ</span> (ч)."},
+ {u:"Մ",l:"մ",name:"мен",tr:"м",sound:"«м»",mnem:"«Мен» → М. Мама, мёд, мен."},
+ {u:"Յ",l:"յ",name:"йи",tr:"й",sound:"«й»",mnem:"«Йи» → Й. Строчная <span class='hy'>յ</span> свисает крючком вниз — как латинская «j»."},
+ {u:"Ն",l:"ն",name:"ну",tr:"н",sound:"«н»",mnem:"«Ну» → Н. Ну, начали!"},
+ {u:"Շ",l:"շ",name:"ша",tr:"ш",sound:"«ш»",mnem:"«Ша» → Ш. Строчная <span class='hy'>շ</span> волнистая — будто змейка шипит «ш-ш-ш»."},
+ {u:"Ո",l:"ո",name:"во",tr:"о / во",sound:"«о», в начале слова «во»",mnem:"Даёт «о», а в начале слова — «во»: <span class='hy'>որ</span> = «вор» (который). А связка <span class='hy'>ու</span> = «у»."},
+ {u:"Չ",l:"չ",name:"ча",tr:"ч(ʰ)",sound:"«ч» с придыханием",mnem:"Мягкое «ч» с выдохом, как в русском «чай». Пара к резкому <span class='hy'>Ճ</span> (ч)."},
+ {u:"Պ",l:"պ",name:"пе",tr:"п",sound:"«п» без придыхания",mnem:"Твёрдое «п» без выдоха. Тройка губных: <span class='hy'>Բ</span> б — <span class='hy'>Պ</span> п — <span class='hy'>Փ</span> п(придых)."},
+ {u:"Ջ",l:"ջ",name:"дже",tr:"дж",sound:"слитное звонкое «дж»",mnem:"«Дже» → слитное «дж», как английское j в «jeans» или имя «Джон»."},
+ {u:"Ռ",l:"ռ",name:"рра",tr:"р (раскат.)",sound:"твёрдое раскатистое «р»",mnem:"Раскатистое твёрдое «р-р-р», как испанское «rr» в «perro». Сильнее, чем мягкое <span class='hy'>Ր</span> (р)."},
+ {u:"Ս",l:"ս",name:"се",tr:"с",sound:"«с»",mnem:"«Се» → С. Солнце, соль, се."},
+ {u:"Վ",l:"վ",name:"вев",tr:"в",sound:"«в»",mnem:"«Вев» → В. Строчная <span class='hy'>վ</span> похожа на латинскую «v»."},
+ {u:"Տ",l:"տ",name:"тюн",tr:"т",sound:"«т» без придыхания",mnem:"Твёрдое «т» без выдоха. Тройка: <span class='hy'>Դ</span> д — <span class='hy'>Տ</span> т — <span class='hy'>Թ</span> т(придых)."},
+ {u:"Ր",l:"ր",name:"ре",tr:"р (мягк.)",sound:"мягкое одноударное «р»",mnem:"Мягкое лёгкое «р» — язык лишь раз касается нёба, как английское r. Слабее раскатистого <span class='hy'>Ռ</span>."},
+ {u:"Ց",l:"ց",name:"цо",tr:"ц(ʰ)",sound:"«ц» с придыханием",mnem:"«Цо» → «ц» с выдохом. Придыхательная в тройке <span class='hy'>Ձ</span> дз — <span class='hy'>Ծ</span> ц — <span class='hy'>Ց</span> ц(придых)."},
+ {u:"Ւ",l:"ւ",name:"вьюн",tr:"(в/у)",sound:"отдельно почти не пишется",mnem:"Сама по себе почти не встречается. Живёт внутри связки <span class='hy'>ու</span> (звук «у») и лигатуры <span class='hy'>և</span> (ев). Можно просто узнавать её в лицо."},
+ {u:"Փ",l:"փ",name:"пюр",tr:"п(ʰ)",sound:"«п» с сильным придыханием",mnem:"«П» с сильным выдохом, как английское p в «pen». Придыхательная в тройке губных <span class='hy'>Բ</span>–<span class='hy'>Պ</span>–<span class='hy'>Փ</span>."},
+ {u:"Ք",l:"ք",name:"ке",tr:"к(ʰ)",sound:"«к» с придыханием",mnem:"«К» с выдохом, как английское k в «kite». Придыхательная в тройке <span class='hy'>Գ</span>–<span class='hy'>Կ</span>–<span class='hy'>Ք</span>."},
+ {u:"Օ",l:"օ",name:"о",tr:"о",sound:"гласный «о»",mnem:"Чистое «о». Кружок — прямо как наша «о». Используется в начале слов и заимствованиях."},
+ {u:"Ֆ",l:"ֆ",name:"фе",tr:"ф",sound:"«ф»",mnem:"«Фе» → Ф. С петлями вверху и внизу — похожа на латинскую «f»."},
+ {u:"ու",l:"ու",name:"у (ո+ւ)",tr:"у",sound:"связка двух букв = «у»",mnem:"Не отдельная буква, а связка <span class='hy'>Ո</span>+<span class='hy'>Ւ</span>. Всегда читается «у»: <span class='hy'>ունեմ</span> = «унем» (я имею)."},
+ {u:"և",l:"և",name:"ев (лигатура)",tr:"ев",sound:"лигатура, союз «и»",mnem:"Лигатура — значит союз «и» (англ. «and»), читается «ев». Тот самый «-ев-» в <span class='hy'>Երևան</span>."},
+];
+ 
+const root=document.getElementById('root');
+let order=A.map((_,i)=>i);
+let pos=0, flipped=false, shuffled=false, hideKnown=false, caseMode='both';
+const known=new Set();
+ 
+function shuffle(arr){const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+ 
+function buildDeck(){
+  let base=A.map((_,i)=>i);
+  if(hideKnown) base=base.filter(i=>!known.has(i));
+  order = shuffled ? shuffle(base) : base;
+  if(order.length===0) order=[];
+  pos=0; flipped=false;
+}
+ 
+function render(){
+  if(order.length===0){
+    root.innerHTML=`<div class="wrap fade">${mast()}
+      <div class="done">
+        <div class="big">Всё выучено! 🎉</div>
+        <p>Вы отметили все буквы как знакомые.</p>
+        <div class="settings"><button class="chip active" id="reset">Начать заново</button></div>
+      </div>${footer()}</div>`;
+    document.getElementById('reset').onclick=()=>{known.clear();hideKnown=false;buildDeck();render();};
+    return;
+  }
+  const ci=order[pos];
+  const c=A[ci];
+  const pct=Math.round((pos+1)/order.length*100);
+  const isKnown=known.has(ci);
+  const letterHtml = caseMode==='upper' ? `<span>${c.u}</span>`
+    : caseMode==='lower' ? `<span>${c.l}</span>`
+    : `<span>${c.u}</span><span class="lower">${c.l}</span>`;
+ 
+  root.innerHTML=`<div class="wrap">
+    ${mast()}
+    <div class="topbar">
+      <div class="counter">${pos+1} <span class="muted">/ ${order.length}</span></div>
+      <div class="learned-pill ${known.size?'':'zero'}">✓ выучено ${known.size} / ${A.length}</div>
+    </div>
+    <div class="progress"><i style="width:${pct}%"></i></div>
+ 
+    <div class="seg">
+      <button data-c="both" class="${caseMode==='both'?'active':''}"><span class="g">Աա</span><span class="cap">обе</span></button>
+      <button data-c="upper" class="${caseMode==='upper'?'active':''}"><span class="g">Ա</span><span class="cap">заглавные</span></button>
+      <button data-c="lower" class="${caseMode==='lower'?'active':''}"><span class="g">ա</span><span class="cap">строчные</span></button>
+    </div>
+ 
+    <div class="scene">
+      <div class="flip ${flipped?'flipped':''}" id="card">
+        <div class="face front">
+          <div class="idx-tag">${ci+1<=38?'№ '+(ci+1):'＋'}</div>
+          <div class="known-badge ${isKnown?'show':''}">✓</div>
+          <div class="letter-big">${letterHtml}</div>
+        </div>
+        <div class="face back">
+          <div class="known-badge ${isKnown?'show':''}">✓</div>
+          <div class="tr-big">${c.tr}</div>
+          <div class="card-actions">
+            <button class="mini" id="repeat">↻ Повторить</button>
+            <button class="mini know" id="know">✓ Знаю</button>
+          </div>
+        </div>
+      </div>
+    </div>
+ 
+    <div class="nav">
+      <button class="nav-btn" id="prev" aria-label="Назад">‹</button>
+      <button class="flip-btn" id="flip">Перевернуть</button>
+      <button class="nav-btn" id="next" aria-label="Вперёд">›</button>
+    </div>
+ 
+    <div class="settings">
+      <button class="chip ${shuffled?'active':''}" id="shuf">🔀 Перемешать</button>
+      <button class="chip ${hideKnown?'active':''}" id="hide">Скрыть выученные</button>
+      <button class="chip" id="restart">↺ Сбросить прогресс</button>
+    </div>
+    ${footer()}
+  </div>`;
+ 
+  const card=document.getElementById('card');
+  const doFlip=()=>{flipped=!flipped;card.classList.toggle('flipped');};
+  card.onclick=(e)=>{ if(e.target.closest('.card-actions')) return; doFlip(); };
+  document.getElementById('flip').onclick=doFlip;
+ 
+  document.getElementById('prev').onclick=()=>{pos=(pos-1+order.length)%order.length;flipped=false;render();};
+  document.getElementById('next').onclick=()=>{pos=(pos+1)%order.length;flipped=false;render();};
+ 
+  document.getElementById('know').onclick=()=>{known.add(ci);advance();};
+  document.getElementById('repeat').onclick=()=>{known.delete(ci);advance();};
+ 
+  document.getElementById('shuf').onclick=()=>{shuffled=!shuffled;buildDeck();render();};
+  document.getElementById('hide').onclick=()=>{hideKnown=!hideKnown;buildDeck();render();};
+  document.getElementById('restart').onclick=()=>{known.clear();shuffled=false;hideKnown=false;buildDeck();render();};
+ 
+  document.querySelectorAll('.seg button').forEach(b=>{
+    b.onclick=()=>{caseMode=b.dataset.c;render();};
+  });
+ 
+  // keyboard
+  document.onkeydown=(e)=>{
+    if(e.key==='ArrowLeft')document.getElementById('prev').click();
+    else if(e.key==='ArrowRight')document.getElementById('next').click();
+    else if(e.key===' '){e.preventDefault();doFlip();}
+  };
+}
+ 
+function advance(){
+  if(hideKnown){ buildDeck(); render(); return; }
+  if(pos+1<order.length){pos++;flipped=false;render();}
+  else {pos=0;flipped=false;render();}
+}
+ 
+function mast(){
+  return `<header class="mast">
+    <div class="crest"><span>Ա</span></div>
+    <div class="kicker">Հայերեն այբուբեն</div>
+    <h1>Армянский <em>алфавит</em></h1>
+  </header>`;
+}
+function footer(){
+  return `<p class="footer">Восточноармянское произношение · ${A.length} карточек<br>Спереди — буква, сзади — транскрипция</p>`;
+}
+ 
+buildDeck();
+render();
+</script>
+</body>
+</html>
